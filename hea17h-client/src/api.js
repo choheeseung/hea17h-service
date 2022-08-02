@@ -1,7 +1,38 @@
+/* eslint-disable consistent-return */
 import axios from 'axios';
 
 // export const apiUrl = 'http://34.168.201.109:8080';
 export const apiUrl = 'http://localhost:8080';
+
+axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        const {
+            config,
+            response: { status },
+        } = error;
+
+        const originalRequest = config;
+
+        if (status === 401) {
+            axios({
+                method: 'get',
+                url: `${apiUrl}/users/auth`,
+                headers: {
+                    refreshToken: `${localStorage.getItem('refreshToken')}`
+                }
+            }).then((response) => {
+                const accessToken = response.data.token;
+
+                localStorage.setItem('userToken', accessToken);
+
+                originalRequest.headers = { 'userToken': accessToken };
+                return axios(originalRequest);
+            });
+            return Promise.reject(error);
+        }
+    }
+);
 
 async function get(endpoint, params = '') {
     const url = params

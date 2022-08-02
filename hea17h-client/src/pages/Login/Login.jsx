@@ -31,7 +31,9 @@ function Login() {
                 const data = { id, password };
                 const res = await Api.post('/users', data);
                 const jwtToken = res.data.token;
+                const refreshToken = res.data.refresh;
                 localStorage.setItem('userToken', jwtToken);
+                localStorage.setItem('refreshToken', refreshToken);
                 dispatch(login(data));
 
                 navigate('/', { replace: true });
