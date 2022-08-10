@@ -46,9 +46,15 @@ function Profile() {
     };
 
     const getInfo = async () => {
-        const { data } = await Api.get('/users');
+        try {
+            const { data } = await Api.get('/users');
 
-        setUserInfo(data);
+            setUserInfo(data);
+        } catch(e) {
+            alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
+            localStorage.clear();
+            window.location.href = '/login';
+        }
     };
 
     const getCertify = async () => {
@@ -215,7 +221,7 @@ const Container = styled.div`
     background-color: #efefef;
 
     width: 100%;
-    height: 150%;
+    height: 180vh;
 
     flex-direction: column;
 `;
@@ -225,7 +231,7 @@ const ProfileContainer = styled.div`
     margin-bottom: 50px;
     background-color: white;
     width: 80%;
-    height: 1150px;
+    height: 140vh;
 
     justify-content: center;
     align-items: center;

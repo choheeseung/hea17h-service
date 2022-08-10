@@ -44,6 +44,12 @@ function Login() {
         }
     };
 
+    const handleKeyPress = e => {
+        if (e.key === 'Enter') {
+            handleLogin(e);
+        }
+    };
+
     const handleRegisterButton = () => {
         navigate('/signup');
     };
@@ -67,6 +73,7 @@ function Login() {
                         onChange={e => {
                             setPassword(e.target.value);
                         }}
+                        onKeyPress={handleKeyPress}
                     />
                     {isCorrect && (
                         <WrongPassword>

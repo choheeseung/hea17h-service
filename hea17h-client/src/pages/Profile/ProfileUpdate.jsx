@@ -142,6 +142,7 @@ function ProfileUpdate() {
                                     name="password"
                                     type="password"
                                     onChange={handleUserInfo}
+                                    required
                                 />
                             )}
                             <InputText>이름</InputText>
@@ -275,7 +276,7 @@ const Container = styled.div`
     background-color: #efefef;
 
     width: 100%;
-    height: 150%;
+    height: 180vh;
 
     flex-direction: column;
 `;
@@ -285,7 +286,7 @@ const ProfileContainer = styled.div`
     margin-bottom: 50px;
     background-color: white;
     width: 80%;
-    height: 1150px;
+    height: 140vh;
 
     justify-content: center;
     align-items: center;
