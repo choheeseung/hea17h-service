@@ -29,10 +29,11 @@ function Login() {
         } else {
             try {
                 const data = { id, password };
-                const res = await Api.post('/users/login', data);
-
+                const res = await Api.post('/users', data);
                 const jwtToken = res.data.token;
+                const refreshToken = res.data.refresh;
                 localStorage.setItem('userToken', jwtToken);
+                localStorage.setItem('refreshToken', refreshToken);
                 dispatch(login(data));
 
                 navigate('/', { replace: true });
@@ -40,6 +41,12 @@ function Login() {
                 console.log('로그인 실패', err);
                 handleIsCorrect();
             }
+        }
+    };
+
+    const handleKeyPress = e => {
+        if (e.key === 'Enter') {
+            handleLogin(e);
         }
     };
 
@@ -54,7 +61,6 @@ function Login() {
                 <InputForm>
                     <InputText>아이디</InputText>
                     <InputItem
-                        
                         onChange={e => {
                             setId(e.target.value);
                         }}
@@ -67,6 +73,7 @@ function Login() {
                         onChange={e => {
                             setPassword(e.target.value);
                         }}
+                        onKeyPress={handleKeyPress}
                     />
                     {isCorrect && (
                         <WrongPassword>
